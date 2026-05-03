@@ -324,10 +324,10 @@ pub struct OTPWriteResult {
 
 /// Voltage regulator settings
 #[bitfield_introspect(model = ti_bq_subcommand, subcommand = 0x0098[0])]
-#[bitfield(u8, order = Msb, default = false, defmt = cfg(feature = "defmt"))]
+#[bitfield(u8, order = Msb, default = false, new = false, defmt = cfg(feature = "defmt"))]
 pub struct Reg12ControlRegister {
     /// Selects voltage level for REG2
-    #[bits(3, access = RW)] // TODO: should be RO, bug in bitfield
+    #[bits(3, access = RO)]
     reg2_voltage: RegVoltageSetting,
     
     /// Enables or disables REG2
@@ -337,7 +337,7 @@ pub struct Reg12ControlRegister {
     reg2_en: bool,
     
     /// Selects voltage level for REG1
-    #[bits(3, access = RW)] // TODO: should be RO, bug in bitfield]
+    #[bits(3, access = RO)]
     reg1_voltage: RegVoltageSetting,
 
     /// Enables or disables REG1
@@ -359,9 +359,9 @@ enum RegVoltageSetting {
 }
 
 impl RegVoltageSetting {
-    const fn into_bits(self) -> u8 {
-        self as u8
-    }
+    // const fn into_bits(self) -> u8 {
+    //     self as u8
+    // }
     
     const fn from_bits(value: u8) -> RegVoltageSetting {
         match value {
